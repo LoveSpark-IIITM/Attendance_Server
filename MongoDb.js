@@ -43,6 +43,9 @@ export default class MongoDBConnection {
 
   async updateOne(collectionName, query, update) {
     if (!this.db) throw new Error("DB not connected");
+    if (update._id) {
+      delete update._id;
+    }
     const res = await this.db.collection(collectionName).updateOne(query, { $set: update });
     return res.modifiedCount > 0;
   }
